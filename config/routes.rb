@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
-devise_for :users
 root to: 'homes#top'
+devise_for :users
+resources :post_images, only: [:new, :create, :index, :show, :destroy]do
+    resource :favorites, only: [:create, :destroy]
+    # 今まではresourcesでしたが、ここでは、resourceとなっている点に注目してください。
+    # 単数にすると、そのコントローラのidがリクエストに含まれなくなります。
+    resources :post_comments, only: [:create, :destroy]
+  end
 end
