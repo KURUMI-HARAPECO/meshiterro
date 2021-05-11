@@ -7,8 +7,13 @@ class PostImagesController < ApplicationController
   def create
     @post_image = PostImage.new(post_image_params)
     @post_image.user_id = current_user.id
-    @post_image.save
-    redirect_to post_images_path
+    if @post_image.save
+      redirect_to post_images_path
+    else
+      render :new
+      # 画像投稿ページを再表示するように設定します。
+      # render :アクション名で、同じコントローラ内の別アクションのViewを表示できます。
+    end
   end
 
   def index

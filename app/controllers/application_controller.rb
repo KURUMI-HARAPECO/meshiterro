@@ -1,6 +1,9 @@
 class ApplicationController < ActionController::Base
-    before_action :configure_permitted_parameters, if: :devise_controller?
-# devise利用の機能（ユーザ登録、ログイン認証など）が使われる場合、その前にconfigure_permitted_parametersが実行されます。
+  before_action :authenticate_user!,except: [:top]
+  # :authenticate_user!とすることによって、「ログイン認証されていなければ、ログイン画面へリダイレクトする」機能を実装
+  # exceptは指定したアクションをbefore_actionの対象から外します。
+  before_action :configure_permitted_parameters, if: :devise_controller?
+  # devise利用の機能（ユーザ登録、ログイン認証など）が使われる場合、その前にconfigure_permitted_parametersが実行されます。
 
   def after_sign_in_path_for(resource)
     post_images_path
